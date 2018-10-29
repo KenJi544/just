@@ -1,0 +1,27 @@
+normally I'd run:
+$g++ -o exe file.cpp
+
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::system::system_category()':
+synchtimer.cpp:(.text._ZN5boost6system15system_categoryEv[_ZN5boost6system15system_categoryEv]+0x7): undefined reference to `boost::system::detail::system_category_instance'
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::system::generic_category()':
+synchtimer.cpp:(.text._ZN5boost6system16generic_categoryEv[_ZN5boost6system16generic_categoryEv]+0x7): undefined reference to `boost::system::detail::generic_category_instance'
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::asio::detail::posix_event::posix_event()':
+synchtimer.cpp:(.text._ZN5boost4asio6detail11posix_eventC2Ev[_ZN5boost4asio6detail11posix_eventC5Ev]+0x4d): undefined reference to `pthread_condattr_setclock'
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::asio::detail::posix_thread::~posix_thread()':
+synchtimer.cpp:(.text._ZN5boost4asio6detail12posix_threadD2Ev[_ZN5boost4asio6detail12posix_threadD5Ev]+0x26): undefined reference to `pthread_detach'
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::asio::detail::posix_thread::join()':
+synchtimer.cpp:(.text._ZN5boost4asio6detail12posix_thread4joinEv[_ZN5boost4asio6detail12posix_thread4joinEv]+0x2b): undefined reference to `pthread_join'
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::asio::basic_deadline_timer<boost::posix_time::ptime, boost::asio::time_traits<boost::posix_time::ptime> >::basic_deadline_timer(boost::asio::io_context&, boost::posix_time::time_duration const&)':
+synchtimer.cpp:(.text._ZN5boost4asio20basic_deadline_timerINS_10posix_time5ptimeENS0_11time_traitsIS3_EEEC2ERNS0_10io_contextERKNS2_13time_durationE[_ZN5boost4asio20basic_deadline_timerINS_10posix_time5ptimeENS0_11time_traitsIS3_EEEC5ERNS0_10io_contextERKNS2_13time_durationE]+0x41): undefined reference to `boost::system::detail::system_category_instance'
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::asio::basic_deadline_timer<boost::posix_time::ptime, boost::asio::time_traits<boost::posix_time::ptime> >::wait()':
+synchtimer.cpp:(.text._ZN5boost4asio20basic_deadline_timerINS_10posix_time5ptimeENS0_11time_traitsIS3_EEE4waitEv[_ZN5boost4asio20basic_deadline_timerINS_10posix_time5ptimeENS0_11time_traitsIS3_EEE4waitEv]+0x26): undefined reference to `boost::system::detail::system_category_instance'
+/usr/bin/ld: /tmp/cczthPXF.o: in function `boost::asio::detail::deadline_timer_service<boost::asio::time_traits<boost::posix_time::ptime> >::destroy(boost::asio::detail::deadline_timer_service<boost::asio::time_traits<boost::posix_time::ptime> >::implementation_type&)':
+synchtimer.cpp:(.text._ZN5boost4asio6detail22deadline_timer_serviceINS0_11time_traitsINS_10posix_time5ptimeEEEE7destroyERNS7_19implementation_typeE[_ZN5boost4asio6detail22deadline_timer_serviceINS0_11time_traitsINS_10posix_time5ptimeEEEE7destroyERNS7_19implementation_typeE]+0x29): undefined reference to `boost::system::detail::system_category_instance'
+collect2: error: ld returned 1 exit status
+
+I found on the internet that I should compile as
+$g++ -o exe synchtimer.cpp -lboost_system            
+but then I get this
+/usr/bin/ld: /tmp/cc9MJIZG.o: undefined reference to symbol 'pthread_join@@GLIBC_2.2.5'
+/usr/bin/ld: /usr/lib/libpthread.so.0: error adding symbols: DSO missing from command line
+collect2: error: ld returned 1 exit status
